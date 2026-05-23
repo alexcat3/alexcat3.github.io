@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Sean Cunneen</title>
+		<link rel="stylesheet" href="/index.css"/>
+	</head>
+	<body>
+		<header>
+			<h1>Sean Cunneen</h1>
+			<nav>
+				<ul>
+					<li><a href="/resume.html">Resume</a></li>
+					<li class="current_page"><a href="/sample_work">Sample Work</a></li>
+					<li><a href="https://github.com/alexcat3/">Github</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<hgroup>
+				<h2>Swatting the Billion Dollar Bug</h2>
+				<p>The Search for Memory Safety</p>
+			</hgroup>
+			<h3>A Tale of Three Cyberattacks</h3>
+			<p>
+				On Saturday, January 25, 2003, internet users started having difficulty connecting to websites. 
+				20% of data was failing to reach its destination, and some banking and travel sites were completely unreachable.
+				South Korea was particularly badly affected, with its internet almost completely shutting down. 
+				The cause: SQL Slammer, a brand-new virus infecting Microsoft database software,
+				which spewed malicious requests over the internet as fast as it could,
+				doubling the number of infections every 8.5 seconds until it controlled over 250,000 computers (Cisco Systems 2003).
+				Luckily, the Slammer's programmer did not include any code to erase files on or otherwise damage the computers that it infected,
+				and its attacks were easily distinguishable from normal Internet traffic, so the internet recovered within hours.
+				(Moore et al 2003) Nevertheless, the worm caused major disruption and was a sign of things to come.
+			</p>
+			<p>
+				On Friday, the 12th of May 2017, over 200,000 people around the world turned on their computers to see a strange message:
+				“Oops, your files have been encrypted!” In just one day, a new ransomware virus known as WannaCry had become a digital pandemic.
+				(BBC 2017) It infected 34 hospitals run by the British National Health Service, disabling medical devices like MRI machines,
+				forcing the NHS to cancel 13,500 appointments and redirect some patients to other hospitals. (Ghafur et al. 2019) 
+				Gas stations in the Chinese city of Chongqing had to take all payments in cash as systems at the national oil company 
+				were taken down, while several Renault auto factories stopped production. (BBC 2017) 
+				Fortunately, that evening a British security researcher managed to activate a built-in “kill switch” in the malware
+				and stop its spread, but in just one day it had already caused an estimated $4 billion in damage. (Berr 2017)
+			</p>
+			<p>
+				Over a period of time from the mid-2010s to the present day, journalists and human rights activists in many countries 
+				received suspicious text messages, including a link leading to a seemingly blank web page.
+				Investigations by the University of Toronto’s Citizen Lab staff found those web pages belong to NSO,
+				an Israeli “cyber warfare” company, and were intended to infect their phones with Pegasus,
+				spyware that the company sells to governments ostensibly for catching lawbreakers.
+				Pegasus can peruse all the data on a target’s phone, snoop on their conversations,
+				track their location, and even listen to their daily life using the device’s microphone. (Scott-Railton et al 2017a)
+				Targets include staff at the Mexican media outlet Aristegui Noticias,
+				which was investigating a bribery scandal where a construction company bought a mansion for the President’s wife,
+				Carlos Loret de Mola, a Mexican journalist reporting on extrajudicial killings by the country’s security forces,
+				Ahmed Mansoor, a pro-democracy activist and Martin Ennals human rights award winner in the UAE,
+				and several Palestinian human rights activists. (Scott-Railton et al 2017a) (Scott-Railton et. al 2017b)
+			</p>
+			<p>
+				These three viruses, SQL Slammer, WannaCry, and Pegasus, have many differences.
+				They infect different pieces of software-- SQL Server, Windows, and iOS-- and serve different purposes--
+				mischief, extortion, and espionage. Yet they all rely on the same kind of vulnerability,
+				a set of two mistakes that programmers have repeated over and over again since the beginning of their profession,
+				a friend of hackers since 1988: memory unsafety bugs. 
+			</p>
+			<p>
+				These bugs have plagued the computer industry for years, but they may not plague it forever. 
+				A move towards new programming languages, encouraged by the US government, may get rid of them once and for all.
+
+			</p>
+			
+			<h3>What is Memory Safety?</h3>
+			<p>
+				Whenever a computer program receives a collection of data, whether it is an 
+				e-mail, an internet request from another computer, or a cat photo, it must store 
+				that data at some location in its memory, making it a “memory object.” Computer programs 
+				use variables (or small pieces of data) called references to keep track of the location 
+				of memory objects, so that they can access them. Computer memory is broken into a series 
+				of numbered slots containing 8 bits of data, enough for one character of the Latin alphabet.
+				A reference contains the number of the slot containing the first 8 bits of
+				the memory object’s data, and the program can keep moving from there to the next and next slot
+				until it has read the entire object.
+			</p>
+			<p>
+				A program is memory safe if, when a program uses a reference to an object,
+				it always accesses the correct object. By contrast a memory UNsafety bug occurs
+				when a program uses a reference to one object but ends up reading or writing
+				to a <em>different</em> object. This can happen for two reasons.
+				With <strong>spatial</strong> memory unsafety bugs,
+				also known as buffer overflows, a program moves past the end of the memory object
+				that it is trying to access and ends up reading or writing to
+				whatever objects happen to be located after it in memory.
+				This can happen, for instance, if the program reads or writes to a list of items
+				and does not include a check to see if it has reached the end of the list.
+				<strong>Temporal</strong> memory unsafety bugs, also known as use-after-free bugs,
+				occur when the object that the program is trying to access has been deleted from memory,
+				and a different object has been created in its place. (Internet Security Research Group n. d)
+			</p>
+			
+			<p>
+				Although these bugs are relatively simple, they can occur in almost any part of a program, 
+				making them difficult to eliminate, so they are very common. The first virus to exploit one of these bugs
+				was the 1988 Morris Worm, which used a buffer overflow vulnerability to infect 10% of computers
+				on the (very small at the time) internet and cause up to $10 million dollars in damage (Tkacik 2021).
+				They continue to be a problem today: 44% of known exploited vulnerabilities in the Linux kernel,
+				70% of the vulnerabilities in Microsoft products in 2018 (MSRC Team 2019), and 80% of those
+				in Google’s Android Operating System in 2019 (Vander Stroep & Chong 2019) are memory safety bugs.
+			</p>
+			
+			
+			<h3>Can Memory Unsafety Be Prevented?</h3>
+			<p>
+				Yes! Many programming languages prevent all memory unsafety vulnerabilities in code.
+				The first such programming language, LISP, was created in 1960.
+				Spatial memory safety can be assured by simply inserting code that checks the size of a data structure
+				before reading it, but temporal safety is more complicated. To prevent temporal memory safety errors,
+				the language used a strategy called “Garbage Collection.” 
+				With garbage collection, the programmer never has to explicitly write code to delete unused objects from memory;
+				instead the program periodically runs code to find and remove them.
+				This code scans through the program’s references, starting from certain base references,
+				then scanning the references in memory objects that these references point to
+				and the references in objects pointed to by those references,
+				until it has scanned all the references in the program. 
+				Whenever it finds a reference to a specific memory object it marks that memory object as in use.
+				If there are no remaining references pointing to an object then the program cannot use that object
+				and so it is deleted.  (McCarthy et al 1960) Because memory objects are only deleted when there are no references
+				to them, the program will never try to use a reference to an object that has been deleted,
+				so use-after-free vulnerabilities will never happen.
+			</p>
+			
+			<p>
+				However, early garbage collectors had a large performance cost. 
+				The 1960 LISP paper said that each run of the collector took “several seconds”
+				(a near-eternity in computer time) and required a large amount of free memory. 
+				(McCarthy et al 1960) As computers became faster and garbage collection algorithms
+				became more sophisticated, this cost became less onerous. 
+				By 2005, a UMass study found that a certain garbage collector could achieve 69% of the speed 
+				of manual memory management while using 2.1x as much memory, (Hertz & Berger 2005) 
+				which after decades of exponential computer performance growth, was good enough for many applications. 
+				In 1989, 1994, and 1999, the memory-unsafe programming languages C and C++, which use manual memory management,
+				held the #1 and #2 spots in the TIOBE index of programming language popularity, 
+				but in 2004 and 2009 the garbage-collected language Java took first place. (TIOBE 2024) 
+			</p>
+			
+			<p>
+				There still is one area where garbage collection lags far behind manual memory management: 
+				latency, or the time taken to respond to an event like a message from another computer 
+				or a reading from an external sensor. Garbage collectors must pause a program’s execution 
+				at least part of the time while they are scanning through its memory. 
+				A paper on Java’s new high-performance garbage collector ZGC touts its 1.4 millisecond maximum pause times, 
+				in contrast to its predecessor G1, which could pause execution for up to 250 ms. (Yang & Wrigstad 2022). 
+				However the Linux kernel with the PREEMPT_RT patch, which adds some modifications to lower latency, 
+				can respond to events in just 0.16 milliseconds! (Adam 2021) Some users rely on these fast response times, 
+				so for projects like Linux, garbage collection is not a good fit.
+			</p>
+			<p>
+				Fortunately, it is possible to create a temporally memory safe programming language without using a garbage collector. 
+				Programming language researchers had been looking into how this could be achieved for decades, 
+				but the first such language to achieve widespread use was Rust. 
+				Engineers at browser company Mozilla began creating Rust in 2006. 
+				The language reached version 1 in 2015 and is now being used by Dropbox, Amazon Web Services, and Microsoft (Thompson 2023).
+				Rust uses a concept called “ownership” to ensure temporal memory safety. 
+				Each memory object is “owned” by one and only one reference. 
+				Other references can “borrow” the object and refer to it without owning it, 
+				but they are required to always cease to exist before the reference that owns the object does, 
+				effectively “giving back” the object to its owner. 
+				Ownership can also be permenantly transferred to a different reference at which point the original owner reference 
+				becomes invalid and the programmer is not allowed to use it. 
+				Because an object’s owner reference will last longer than every other reference to that object, 
+				when the owner reference is deleted there will be no references to the object 
+				and it will always be safe to delete the object from memory (Klabnik and Nichols 2024). Thus temporal safety is achieved.
+			</p>
+			
+			<h3>The Movement Towards Memory Safety</h3>
+			<p>
+				The cost of security vulnerabilities is growing. After the previously mentioned WannaCry virus, 
+				another virus exploiting the same bug known as NotPetya, 
+				which US officials claim was created by the Russian military to wage cyberwar on Ukraine,
+				caused an estimated $10 billion dollars in damages. (Greenberg 2018). 
+				This brought the total estimated cost of the single Windows vulnerability up to a staggering $14 billion. 
+				Total ransomware payments jumped from $220 million in 2019 to $905 million in 2020, 
+				then crept up to a 2023 total of $1.1 billion, according to crypto security firm Chainanalysis 
+				(Chainanalysis Team 2024).
+			</p>
+			<p>
+				Faced with this crisis, the computer industry has decided to tackle one of the root causes of security vulnerabilities 
+				by moving towards memory safe languages. Starting in 2019, Google’s Android team started switching toward memory safe languages 
+				like Rust for new code and as a result, 
+				the number of Critical Severity vulnerabilities found in Android per year dropped by more than 50% in 3 years 
+				(Vander Stroep 2024). Mozilla has converted many components of its Firefox browser to Rust, 
+				including its rendering engine and CSS processor. (MozillaWiki, n.d.) 
+				In 2023, the US Cybersecurity and Infrastructure Security Agency published guidance that 
+				“urges software manufacturers to make it a top-level company goal to reduce 
+				and eventually eliminate memory safety vulnerabilities from their product lines,” 
+				citing the Rust language as an important means of doing so. 
+				(Lord 2023) If these efforts succeed, memory safety bugs could finally be a thing of the past.
+
+
+			</p>
+		</main>
+	</body>
+</html>

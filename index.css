@@ -1,0 +1,64 @@
+body{
+	color: light-dark(#002060, #F8C0F8);
+	color-scheme: light dark;
+	background-color: light-dark(#F8C0F8, #002040);
+	font-family:Georgia;
+	line-height:2em;
+
+}
+
+td,th{
+	padding-right: .4em;
+	padding-bottom: .2em;
+	color: light-dark(#000000, #E0E0F8);
+}
+
+td{
+	background-color: light-dark(#C0E0EA,#002040);
+}
+th{
+	background-color: light-dark(#D0D0FF, #400040);
+}
+
+header {
+	h1 {
+		text-shadow: .09em .09em rgb(128 128 128 / .5);
+	}
+	font-size: 1.5em;
+	nav ul{
+		display:flex;
+		padding: 0;
+		margin: 0;
+		list-style-type:none;
+		li{
+			display:block;
+			padding-right:.75em;
+			padding-left:.75em;
+			padding-bottom:.3em;
+			padding-top: .3em;
+			border: medium solid black;
+		}
+	}
+	.current_page{
+		background-color: light-dark(#002040, #F8C0F8);
+		a {
+			color: light-dark(#F8C0F8, #002040);
+		}
+	}
+}
+
+
+main{
+	background-color: light-dark(#E8E8F8, #000000);
+	color: light-dark(#000000, #D0FFD0);
+	font-size:1.2em;
+	padding: 1em;
+	max-width: 50em;
+	
+	h2, h3, hgroup > p{
+		color: light-dark(#800020, #FF8080);
+		font-variant: small-caps;
+		margin-bottom:.1em;
+		padding-bottom:0px;
+	}
+}
